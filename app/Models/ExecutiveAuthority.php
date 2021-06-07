@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Email;
 use App\Models\Number;
 use App\Models\SubExecutiveAuthority;
+use App\Models\User;
 
 class ExecutiveAuthority extends Model
 {
@@ -30,5 +31,12 @@ class ExecutiveAuthority extends Model
 
     public function sub_executive_authorities() {
         return $this->hasMany(SubExecutiveAuthority::class);
+    }
+
+    public function users() {
+        return $this->belongsToMany(User::class,
+            'executive_authorities_users',
+            'executive_authority_id',
+            'user_id');
     }
 }

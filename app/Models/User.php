@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\ExecutiveAuthority;
 
 class User extends Authenticatable
 {
@@ -41,4 +42,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function executive_authorities() {
+        return $this->belongsToMany(ExecutiveAuthority::class,
+            'executive_authorities_users',
+            'user_id',
+            'executive_authority_id');
+    }
 }
