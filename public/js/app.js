@@ -17752,7 +17752,8 @@ __webpack_require__.r(__webpack_exports__);
         locationDescription: '',
         coordX: '',
         coordY: ''
-      })
+      }),
+      listOfFormFields: ['name', 'identifierCode', 'locationDescription', 'coordX', 'coordY']
     };
   },
   methods: {},
@@ -18200,14 +18201,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      form: ''
+      currentComponent: 'ExecutiveAuthorityForm'
     };
   },
   methods: {
-    submit: function submit(componentFormValues) {
-      componentFormValues.post(this.route('control'), {
+    submit: function submit(form, listOfFields) {
+      form.post(this.route('control'), {
         onSuccess: function onSuccess() {
-          return console.log(123);
+          //resets form's fields depends on it names
+          listOfFields.forEach(function (el) {
+            form.reset(el);
+          });
         }
       });
     }
@@ -18624,7 +18628,7 @@ var _hoisted_1 = {
 };
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "exampleFormControlInput1",
+  "for": "name",
   "class": "form-label"
 }, "Назва", -1
 /* HOISTED */
@@ -18635,9 +18639,9 @@ var _hoisted_3 = {
 };
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "exampleFormControlInput2",
+  "for": "identifierCode",
   "class": "form-label"
-}, "Ідентифікаційний код ", -1
+}, "Ідентифікаційний код", -1
 /* HOISTED */
 );
 
@@ -18646,7 +18650,7 @@ var _hoisted_5 = {
 };
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "exampleFormControlTextarea1",
+  "for": "locationDescription",
   "class": "form-label"
 }, "Опис локації розміщення", -1
 /* HOISTED */
@@ -18660,7 +18664,7 @@ var _hoisted_8 = {
 };
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "exampleFormControlInput3",
+  "for": "coordX",
   "class": "form-label"
 }, "Координати (х)", -1
 /* HOISTED */
@@ -18671,7 +18675,7 @@ var _hoisted_10 = {
 };
 
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "exampleFormControlInput4",
+  "for": "coordY",
   "class": "form-label"
 }, "Координати (y)", -1
 /* HOISTED */
@@ -18682,7 +18686,7 @@ var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
     onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return _ctx.$emit('submitForm', $data.form);
+      return _ctx.$emit('submitForm', $data.form, $data.listOfFormFields);
     }, ["prevent"])),
     "class": "col-12"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
@@ -18690,7 +18694,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.form.name = $event;
     }),
-    id: "exampleFormControlInput1",
+    id: "name",
     placeholder: "Повна назва виконавчого органу"
   }, null, 512
   /* NEED_PATCH */
@@ -18699,7 +18703,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.form.identifierCode = $event;
     }),
-    id: "exampleFormControlInput2",
+    id: "identifierCode",
     placeholder: "ЄДРПОУ"
   }, null, 512
   /* NEED_PATCH */
@@ -18708,7 +18712,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.form.locationDescription = $event;
     }),
-    id: "exampleFormControlTextarea1",
+    id: "locationDescription",
     rows: "3"
   }, null, 512
   /* NEED_PATCH */
@@ -18717,7 +18721,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.form.coordX = $event;
     }),
-    id: "exampleFormControlInput3",
+    id: "coordX",
     placeholder: "х"
   }, null, 512
   /* NEED_PATCH */
@@ -18726,7 +18730,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.form.coordY = $event;
     }),
-    id: "exampleFormControlInput4",
+    id: "coordY",
     placeholder: "у"
   }, null, 512
   /* NEED_PATCH */
@@ -19724,10 +19728,10 @@ var _hoisted_3 = {
   }
 };
 var _hoisted_4 = {
-  "class": "col-8 d-flex justify-content-center p-3"
+  "class": "col-8 d-flex justify-content-center p-4"
 };
 var _hoisted_5 = {
-  "class": "col-4 d-flex justify-content-center align-items-center p-3"
+  "class": "col-4 d-flex justify-content-center align-items-center p-4"
 };
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
@@ -19742,8 +19746,6 @@ var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_executive_authority_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("executive-authority-form");
-
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$page.props.auth.role), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$page.props.executiveAuthorities, function (executiveAuthority) {
@@ -19754,11 +19756,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     );
   }), 128
   /* KEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_executive_authority_form, {
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($data.currentComponent), {
     onSubmitForm: $options.submit
   }, null, 8
   /* PROPS */
-  , ["onSubmitForm"])])]), _hoisted_6]);
+  , ["onSubmitForm"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <executive-authority-form @submit-form=\"submit\"></executive-authority-form>")])]), _hoisted_6]);
 });
 
 /***/ }),

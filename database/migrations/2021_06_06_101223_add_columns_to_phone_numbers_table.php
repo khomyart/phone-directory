@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnsToNumberTable extends Migration
+class AddColumnsToPhoneNumbersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddColumnsToNumberTable extends Migration
      */
     public function up()
     {
-        Schema::table('numbers', function (Blueprint $table) {
+        Schema::table('phone_numbers', function (Blueprint $table) {
             $table->unsignedBigInteger('sub_executive_authority_id')->nullable();
             $table->unsignedBigInteger('executive_authority_id')->nullable();
 
@@ -38,7 +38,7 @@ class AddColumnsToNumberTable extends Migration
      */
     public function down()
     {
-        Schema::table('numbers', function (Blueprint $table) {
+        Schema::table('phone_numbers', function (Blueprint $table) {
 
         });
     }

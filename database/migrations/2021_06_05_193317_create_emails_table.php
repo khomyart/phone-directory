@@ -17,6 +17,7 @@ class CreateEmailsTable extends Migration
             $table->id();
             $table->string('email', 55);
             $table->unsignedBigInteger('executive_authority_id');
+            $table->integer('number_in_list');
             $table->enum('is_main',['yes', 'no']);
             $table->timestamps();
 

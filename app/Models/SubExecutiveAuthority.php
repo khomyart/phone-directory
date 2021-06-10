@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Worker;
-use App\Models\Number;
+use App\Models\PhoneNumber;
 use App\Models\ExecutiveAuthority;
 
 class SubExecutiveAuthority extends Model
@@ -19,7 +19,7 @@ class SubExecutiveAuthority extends Model
     }
 
     public function numbers() {
-        return $this->hasMany(Number::class);
+        return $this->hasMany(PhoneNumber::class);
     }
 
     public function executive_authority() {

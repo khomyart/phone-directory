@@ -12,6 +12,7 @@ use App\Models\ExecutiveAuthority;
 
 class ExecutiveAuthorityController extends Controller
 {
+
     public function index() {
         return Inertia::render('Control', [
             'executiveAuthorities' => ExecutiveAuthority::all(),
@@ -20,27 +21,24 @@ class ExecutiveAuthorityController extends Controller
     }
 
     public function store(Request $request) {
-        $lastNumberInListCollection = ExecutiveAuthority::select('number_in_list')->orderByDesc('number_in_list')->limit(1)->get();
-        $lastNumberInList = isset($lastNumberInListCollection[0]['number_in_list']) ? $lastNumberInListCollection[0]['number_in_list'] : -1;
 
         request()->validate([
-            'name' => ['required', 'max:50'],
+            'name' => ['required', 'max:100'],
             'identifierCode' => ['required', 'max:50'],
-            'locationDescription' => ['required', 'max:100'],
+            'locationDescription' => ['required', 'max:200'],
             'coordX' => ['required', 'max:10'],
             'coordY' => ['required', 'max:10']
         ]);
 
         $optimisedRequestArray = [
             'name' => $request->name,
-            'number_in_list' => $lastNumberInList + 1,
+            'number_in_list' => ExecutiveAuthority::getLastValueOfNumberInList() + 1,
             'identifier_code' => $request->identifierCode,
             'location_description' => $request->locationDescription,
             'location_coordinates' => $request->coordX.$request->coordY,
         ];
 
-        ExecutiveAuthority::create($optimisedRequestArray);
-
+        $executiveAuthority = ExecutiveAuthority::create($optimisedRequestArray);
         return Redirect::action([self::class, 'index']);
     }
 

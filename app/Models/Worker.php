@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SubExecutiveAuthority;
-use App\Models\Number;
+use App\Models\PhoneNumber;
 
 class Worker extends Model
 {
@@ -18,6 +18,6 @@ class Worker extends Model
     }
 
     public function numbers() {
-        return $this->hasMany(Number::class);
+        return $this->hasMany(PhoneNumber::class);
     }
 }

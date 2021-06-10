@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddForeignKeyToNumbersTable extends Migration
+class AddForeignKeyToPhoneNumbersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddForeignKeyToNumbersTable extends Migration
      */
     public function up()
     {
-        Schema::table('numbers', function (Blueprint $table) {
+        Schema::table('phone_numbers', function (Blueprint $table) {
             $table->foreign('worker_id')
                 ->references('id')
                 ->on('workers')
@@ -29,7 +29,7 @@ class AddForeignKeyToNumbersTable extends Migration
      */
     public function down()
     {
-        Schema::table('numbers', function (Blueprint $table) {
+        Schema::table('phone_numbers', function (Blueprint $table) {
             //
         });
     }
