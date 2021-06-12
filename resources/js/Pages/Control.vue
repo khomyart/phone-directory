@@ -3,17 +3,16 @@
         <div class="col-12 d-flex justify-content-center align-items-center" style="height: 10%">
             {{ $page.props.auth.role }}
         </div>
-        <div class="row col-12 d-flex flex-row" style="height: 80%">
-            <div class="col-8 d-flex justify-content-center p-4" >
+        <div class="row col-12 col-xxl-8 d-flex flex-row" style="height: 80%">
+            <div class="col-8 d-flex justify-content-center p-4 content-holder">
                 <ul>
                     <li v-for="executiveAuthority in $page.props.executiveAuthorities" :key="executiveAuthority.id">
                         {{ executiveAuthority.name }}
                     </li>
                 </ul>
             </div>
-            <div class="col-4 d-flex justify-content-center align-items-center p-4" >
+            <div class="col-4 d-flex justify-content-center align-items-start p-4 forms-holder">
                 <component :is="currentComponent" @submit-form="submit"></component>
-<!--                <executive-authority-form @submit-form="submit"></executive-authority-form>-->
             </div>
         </div>
         <div class="col-12 d-flex justify-content-center align-items-center" style="height: 10%">
@@ -60,5 +59,15 @@
 </script>
 
 <style scoped>
+    .content-holder {
+        min-height: 100%;
+        max-height: 100%;
+        overflow-y: scroll;
+    }
 
+    .forms-holder {
+        min-height: 100%;
+        max-height: 100%;
+        overflow-y: scroll;
+    }
 </style>

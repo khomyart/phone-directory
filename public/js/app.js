@@ -17731,6 +17731,37 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/EmailField.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/EmailField.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "EmailField",
+  props: {
+    index: Number
+  },
+  created: function created() {
+    if (this.index === 0) this.values.checkbox = true;
+  },
+  data: function data() {
+    return {
+      values: {
+        input: '',
+        checkbox: false
+      }
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=script&lang=js":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=script&lang=js ***!
@@ -17742,22 +17773,113 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _Components_forms_phoneNumberField__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Components/forms/phoneNumberField */ "./resources/js/Components/forms/phoneNumberField.vue");
+/* harmony import */ var _Components_forms_EmailField__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/forms/EmailField */ "./resources/js/Components/forms/EmailField.vue");
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ExecutiveAuthority",
+  components: {
+    PhoneNumberField: _Components_forms_phoneNumberField__WEBPACK_IMPORTED_MODULE_0__.default,
+    EmailField: _Components_forms_EmailField__WEBPACK_IMPORTED_MODULE_1__.default
+  },
   data: function data() {
     return {
+      listOfFormFields: ['name', 'identifierCode', 'locationDescription', 'coordX', 'coordY', 'phoneNumbers', 'emails'],
       form: this.$inertia.form({
         name: '',
         identifierCode: '',
         locationDescription: '',
         coordX: '',
-        coordY: ''
+        coordY: '',
+        phoneNumbers: [],
+        emails: []
       }),
-      listOfFormFields: ['name', 'identifierCode', 'locationDescription', 'coordX', 'coordY']
+      amountOfPhoneNumberFields: [],
+      amountOfEmailFields: []
+    };
+  },
+  watch: {},
+  methods: {
+    /* Create components */
+    createAdditionalPhoneNumberField: function createAdditionalPhoneNumberField() {
+      var lastArrayIndex = this.amountOfPhoneNumberFields.length === 0 ? 0 : this.amountOfPhoneNumberFields[this.amountOfPhoneNumberFields.length - 1] + 1;
+      this.amountOfPhoneNumberFields.push(lastArrayIndex);
+      this.form.phoneNumbers.push({});
+    },
+    createEmailField: function createEmailField() {
+      var lastArrayIndex = this.amountOfEmailFields.length === 0 ? 0 : this.amountOfEmailFields[this.amountOfEmailFields.length - 1] + 1;
+      this.amountOfEmailFields.push(lastArrayIndex);
+      this.form.emails.push({});
+      console.log(this.form.emails);
+    },
+
+    /* Receive data from components */
+    receivePhoneNumberFieldValues: function receivePhoneNumberFieldValues(values, index) {
+      var indexOfPhoneNumberField = this.amountOfPhoneNumberFields.indexOf(index);
+      this.form.phoneNumbers[indexOfPhoneNumberField] = values;
+    },
+    receiveEmailFieldValues: function receiveEmailFieldValues(values, index) {
+      var indexOfEmailField = this.amountOfEmailFields.indexOf(index);
+      this.form.emails[indexOfEmailField] = values;
+      console.log(this.form);
+    },
+
+    /* Remove components */
+    removePhoneNumberField: function removePhoneNumberField(index) {
+      var indexOfPhoneNumberField = this.amountOfPhoneNumberFields.indexOf(index);
+      document.getElementById("phone-number-field-".concat(index)).remove();
+      this.amountOfPhoneNumberFields.splice(indexOfPhoneNumberField, 1); // indexOfPhoneNumberField = this.amountOfPhoneNumberFields.indexOf(index);
+
+      this.form.phoneNumbers.splice(indexOfPhoneNumberField, 1);
+    },
+    removeEmailField: function removeEmailField(fieldNumber) {
+      var indexOfEmailField = this.amountOfEmailFields.indexOf(fieldNumber);
+      document.getElementById("email-field-".concat(fieldNumber)).remove();
+      this.amountOfEmailFields.splice(indexOfEmailField, 1);
+      this.form.emails.splice(indexOfEmailField, 1);
+      console.log(this.form.emails);
+    }
+  },
+  computed: {
+    telephoneLabel: function telephoneLabel() {
+      return this.amountOfPhoneNumberFields.length > 1 ? 'Телефони' : 'Телефон';
+    },
+    emailLabel: function emailLabel() {
+      return this.amountOfEmailFields.length > 1 ? 'Електронні пошти' : 'Електронна пошта';
+    }
+  },
+  emits: ['submitForm']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/phoneNumberField.vue?vue&type=script&lang=js":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/phoneNumberField.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "phoneNumberField",
+  props: {
+    index: Number
+  },
+  data: function data() {
+    return {
+      values: {
+        input: '',
+        selection: 'stationary'
+      }
     };
   },
   methods: {},
-  emits: ['submitForm']
+  emits: ['sendPhoneNumberFieldValues', 'removePhoneNumberField']
 });
 
 /***/ }),
@@ -18605,6 +18727,86 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/EmailField.vue?vue&type=template&id=01310be9&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/EmailField.vue?vue&type=template&id=01310be9&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-01310be9");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-01310be9");
+
+var _hoisted_1 = {
+  "class": "d-flex flex-row justify-content-between col-12 mb-2 p-0"
+};
+var _hoisted_2 = {
+  "class": "col-11 pe-2"
+};
+var _hoisted_3 = {
+  "class": "col-4 pe-2 d-flex justify-content-center align-items-center"
+};
+var _hoisted_4 = {
+  "class": "form-check form-switch"
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "class": "form-check-label",
+  "for": "flexSwitchCheckDefault"
+}, "Основна", -1
+/* HOISTED */
+);
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+    id: "email-field-".concat($props.index),
+    "class": "d-flex flex-column justify-content-start col-12 mb-3 p-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.values.input = $event;
+    }),
+    onInput: _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.$emit('sendEmailFieldValues', _ctx.values, $props.index);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.values.input]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    type: "button",
+    "class": "btn btn-primary col-1 justify-content-center align-items-center p-1",
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.$emit('removeEmailField', $props.index);
+    })
+  }, " - ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "form-check-input",
+    type: "checkbox",
+    id: "flexSwitchCheckDefault",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.values.checkbox = $event;
+    }),
+    onInput: _cache[5] || (_cache[5] = function ($event) {
+      return _ctx.$emit('sendEmailFieldValues', _ctx.values, $props.index);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, _ctx.values.checkbox]]), _hoisted_5])])], 8
+  /* PROPS */
+  , ["id"]);
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=template&id=2d6c7be6&scoped=true":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=template&id=2d6c7be6&scoped=true ***!
@@ -18681,11 +18883,42 @@ var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
+var _hoisted_12 = {
+  "class": "d-flex flex-row justify-content-between col-12 mb-3 p-0",
+  style: {
+    "text-align": "center"
+  }
+};
+var _hoisted_13 = {
+  "class": "d-flex align-items-center"
+};
+var _hoisted_14 = {
+  id: "phone_numbers_holder",
+  "class": "mb-4"
+};
+var _hoisted_15 = {
+  "class": "d-flex flex-row justify-content-between col-12 mb-3 p-0",
+  style: {
+    "text-align": "center"
+  }
+};
+var _hoisted_16 = {
+  "class": "d-flex align-items-center"
+};
+var _hoisted_17 = {
+  id: "emails_holder",
+  "class": "mb-4"
+};
+
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_phone_number_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("phone-number-field");
+
+  var _component_email_field = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("email-field");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("form", {
-    onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return _ctx.$emit('submitForm', $data.form, $data.listOfFormFields);
     }, ["prevent"])),
     "class": "col-12"
@@ -18734,7 +18967,45 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     placeholder: "у"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.coordY]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.coordY]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.telephoneLabel), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    type: "button",
+    "class": "btn btn-primary col-1 d-flex justify-content-center align-items-center p-1",
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.createAdditionalPhoneNumberField && $options.createAdditionalPhoneNumberField.apply($options, arguments);
+    })
+  }, " + ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.amountOfPhoneNumberFields, function (index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_phone_number_field, {
+      index: index,
+      key: index,
+      onSendPhoneNumberFieldValues: $options.receivePhoneNumberFieldValues,
+      onRemovePhoneNumberField: $options.removePhoneNumberField
+    }, null, 8
+    /* PROPS */
+    , ["index", "onSendPhoneNumberFieldValues", "onRemovePhoneNumberField"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.emailLabel), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    type: "button",
+    "class": "btn btn-primary col-1 d-flex justify-content-center align-items-center p-1",
+    onClick: _cache[7] || (_cache[7] = function () {
+      return $options.createEmailField && $options.createEmailField.apply($options, arguments);
+    })
+  }, " + ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.amountOfEmailFields, function (index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_email_field, {
+      index: index,
+      key: index,
+      onRemoveEmailField: $options.removeEmailField,
+      onSendEmailFieldValues: $options.receiveEmailFieldValues
+    }, null, 8
+    /* PROPS */
+    , ["index", "onRemoveEmailField", "onSendEmailFieldValues"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     type: "submit",
     "class": {
       'btn btn-primary mb-3': !$data.form.processing,
@@ -18746,6 +19017,89 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   , ["disabled"])], 32
   /* HYDRATE_EVENTS */
   );
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/phoneNumberField.vue?vue&type=template&id=73fbdda4&scoped=true":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/phoneNumberField.vue?vue&type=template&id=73fbdda4&scoped=true ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-73fbdda4");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-73fbdda4");
+
+var _hoisted_1 = {
+  "class": "col-7 pe-2"
+};
+var _hoisted_2 = {
+  "class": "col-4 pe-2"
+};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "stationary"
+}, "Стац.", -1
+/* HOISTED */
+);
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "mobile"
+}, "Моб.", -1
+/* HOISTED */
+);
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "Fax"
+}, "Факс", -1
+/* HOISTED */
+);
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+    id: "phone-number-field-".concat($props.index),
+    "class": "d-flex flex-row justify-content-between col-12 mb-3 p-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "text",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.values.input = $event;
+    }),
+    "class": "form-control",
+    onInput: _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.$emit('sendPhoneNumberFieldValues', $data.values, $props.index);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.values.input]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.values.selection = $event;
+    }),
+    "class": "form-select",
+    onInput: _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.$emit('sendPhoneNumberFieldValues', $data.values, $props.index);
+    })
+  }, [_hoisted_3, _hoisted_4, _hoisted_5], 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.values.selection]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    type: "button",
+    "class": "btn btn-primary col-1 justify-content-center align-items-center p-1",
+    onClick: _cache[5] || (_cache[5] = function ($event) {
+      return _ctx.$emit('removePhoneNumberField', $props.index);
+    })
+  }, " - ")], 8
+  /* PROPS */
+  , ["id"]);
 });
 
 /***/ }),
@@ -19722,16 +20076,16 @@ var _hoisted_2 = {
   }
 };
 var _hoisted_3 = {
-  "class": "row col-12 d-flex flex-row",
+  "class": "row col-12 col-xxl-8 d-flex flex-row",
   style: {
     "height": "80%"
   }
 };
 var _hoisted_4 = {
-  "class": "col-8 d-flex justify-content-center p-4"
+  "class": "col-8 d-flex justify-content-center p-4 content-holder"
 };
 var _hoisted_5 = {
-  "class": "col-4 d-flex justify-content-center align-items-center p-4"
+  "class": "col-4 d-flex justify-content-center align-items-start p-4 forms-holder"
 };
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
@@ -19760,7 +20114,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     onSubmitForm: $options.submit
   }, null, 8
   /* PROPS */
-  , ["onSubmitForm"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <executive-authority-form @submit-form=\"submit\"></executive-authority-form>")])]), _hoisted_6]);
+  , ["onSubmitForm"]))])]), _hoisted_6]);
 });
 
 /***/ }),
@@ -20239,6 +20593,30 @@ if ($defineProperty) {
 } else {
 	module.exports.apply = applyBind;
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.content-holder[data-v-fd847178] {\n        min-height: 100%;\n        max-height: 100%;\n        overflow-y: scroll;\n}\n.forms-holder[data-v-fd847178] {\n        min-height: 100%;\n        max-height: 100%;\n        overflow-y: scroll;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
 /***/ }),
@@ -41533,6 +41911,33 @@ _ValidationErrors_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.defau
 
 /***/ }),
 
+/***/ "./resources/js/Components/forms/EmailField.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/Components/forms/EmailField.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EmailField_vue_vue_type_template_id_01310be9_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EmailField.vue?vue&type=template&id=01310be9&scoped=true */ "./resources/js/Components/forms/EmailField.vue?vue&type=template&id=01310be9&scoped=true");
+/* harmony import */ var _EmailField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EmailField.vue?vue&type=script&lang=js */ "./resources/js/Components/forms/EmailField.vue?vue&type=script&lang=js");
+
+
+
+_EmailField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _EmailField_vue_vue_type_template_id_01310be9_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_EmailField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-01310be9"
+/* hot reload */
+if (false) {}
+
+_EmailField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Components/forms/EmailField.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_EmailField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
 /***/ "./resources/js/Components/forms/ExecutiveAuthority.vue":
 /*!**************************************************************!*\
   !*** ./resources/js/Components/forms/ExecutiveAuthority.vue ***!
@@ -41557,6 +41962,33 @@ if (false) {}
 _ExecutiveAuthority_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Components/forms/ExecutiveAuthority.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_ExecutiveAuthority_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/Components/forms/phoneNumberField.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/Components/forms/phoneNumberField.vue ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _phoneNumberField_vue_vue_type_template_id_73fbdda4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./phoneNumberField.vue?vue&type=template&id=73fbdda4&scoped=true */ "./resources/js/Components/forms/phoneNumberField.vue?vue&type=template&id=73fbdda4&scoped=true");
+/* harmony import */ var _phoneNumberField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phoneNumberField.vue?vue&type=script&lang=js */ "./resources/js/Components/forms/phoneNumberField.vue?vue&type=script&lang=js");
+
+
+
+_phoneNumberField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _phoneNumberField_vue_vue_type_template_id_73fbdda4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_phoneNumberField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-73fbdda4"
+/* hot reload */
+if (false) {}
+
+_phoneNumberField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/Components/forms/phoneNumberField.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_phoneNumberField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /***/ }),
 
@@ -41808,9 +42240,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Control_vue_vue_type_template_id_fd847178_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Control.vue?vue&type=template&id=fd847178&scoped=true */ "./resources/js/Pages/Control.vue?vue&type=template&id=fd847178&scoped=true");
 /* harmony import */ var _Control_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Control.vue?vue&type=script&lang=js */ "./resources/js/Pages/Control.vue?vue&type=script&lang=js");
+/* harmony import */ var _Control_vue_vue_type_style_index_0_id_fd847178_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css */ "./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css");
 
 
 
+
+;
 _Control_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _Control_vue_vue_type_template_id_fd847178_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
 _Control_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-fd847178"
 /* hot reload */
@@ -42006,6 +42441,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/forms/EmailField.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/Components/forms/EmailField.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EmailField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EmailField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EmailField.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/EmailField.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=script&lang=js":
 /*!**************************************************************************************!*\
   !*** ./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=script&lang=js ***!
@@ -42018,6 +42469,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ExecutiveAuthority_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ExecutiveAuthority_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ExecutiveAuthority.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/Components/forms/phoneNumberField.vue?vue&type=script&lang=js":
+/*!************************************************************************************!*\
+  !*** ./resources/js/Components/forms/phoneNumberField.vue?vue&type=script&lang=js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_phoneNumberField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_phoneNumberField_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./phoneNumberField.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/phoneNumberField.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -42374,6 +42841,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/forms/EmailField.vue?vue&type=template&id=01310be9&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/Components/forms/EmailField.vue?vue&type=template&id=01310be9&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EmailField_vue_vue_type_template_id_01310be9_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EmailField_vue_vue_type_template_id_01310be9_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EmailField.vue?vue&type=template&id=01310be9&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/EmailField.vue?vue&type=template&id=01310be9&scoped=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=template&id=2d6c7be6&scoped=true":
 /*!********************************************************************************************************!*\
   !*** ./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=template&id=2d6c7be6&scoped=true ***!
@@ -42386,6 +42869,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ExecutiveAuthority_vue_vue_type_template_id_2d6c7be6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ExecutiveAuthority_vue_vue_type_template_id_2d6c7be6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ExecutiveAuthority.vue?vue&type=template&id=2d6c7be6&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/ExecutiveAuthority.vue?vue&type=template&id=2d6c7be6&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/forms/phoneNumberField.vue?vue&type=template&id=73fbdda4&scoped=true":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/Components/forms/phoneNumberField.vue?vue&type=template&id=73fbdda4&scoped=true ***!
+  \******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_phoneNumberField_vue_vue_type_template_id_73fbdda4_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_phoneNumberField_vue_vue_type_template_id_73fbdda4_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./phoneNumberField.vue?vue&type=template&id=73fbdda4&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/forms/phoneNumberField.vue?vue&type=template&id=73fbdda4&scoped=true");
 
 
 /***/ }),
@@ -42582,6 +43081,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Control_vue_vue_type_style_index_0_id_fd847178_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-style-loader/index.js!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Control_vue_vue_type_style_index_0_id_fd847178_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Control_vue_vue_type_style_index_0_id_fd847178_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Control_vue_vue_type_style_index_0_id_fd847178_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Control_vue_vue_type_style_index_0_id_fd847178_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
 /***/ "./resources/js/Pages/unused/Welcome.vue?vue&type=style&index=0&id=52a10d52&scoped=true&lang=css":
 /*!*******************************************************************************************************!*\
   !*** ./resources/js/Pages/unused/Welcome.vue?vue&type=style&index=0&id=52a10d52&scoped=true&lang=css ***!
@@ -42596,6 +43112,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_52a10d52_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Welcome_vue_vue_type_style_index_0_id_52a10d52_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Control.vue?vue&type=style&index=0&id=fd847178&scoped=true&lang=css");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("42e6a834", content, false, {});
+// Hot Module Replacement
+if(false) {}
 
 /***/ }),
 

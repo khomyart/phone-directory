@@ -27,19 +27,21 @@ class ExecutiveAuthorityController extends Controller
             'identifierCode' => ['required', 'max:50'],
             'locationDescription' => ['required', 'max:200'],
             'coordX' => ['required', 'max:10'],
-            'coordY' => ['required', 'max:10']
+            'coordY' => ['required', 'max:10'],
+            'phoneNumbers.*.input' => 'max:2'
         ]);
-
-        $optimisedRequestArray = [
-            'name' => $request->name,
-            'number_in_list' => ExecutiveAuthority::getLastValueOfNumberInList() + 1,
-            'identifier_code' => $request->identifierCode,
-            'location_description' => $request->locationDescription,
-            'location_coordinates' => $request->coordX.$request->coordY,
-        ];
-
-        $executiveAuthority = ExecutiveAuthority::create($optimisedRequestArray);
-        return Redirect::action([self::class, 'index']);
+//
+//        $optimisedRequestArray = [
+//            'name' => $request->name,
+//            'number_in_list' => ExecutiveAuthority::getLastValueOfNumberInList() + 1,
+//            'identifier_code' => $request->identifierCode,
+//            'location_description' => $request->locationDescription,
+//            'location_coordinates' => $request->coordX.$request->coordY,
+//        ];
+//
+//        $executiveAuthority = ExecutiveAuthority::create($optimisedRequestArray);
+//        return Redirect::action([self::class, 'index']);
+        return json_encode($request->all());
     }
 
 }
