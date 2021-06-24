@@ -48,16 +48,43 @@ class ExecutiveAuthority extends Model
      */
     public static function getLastValueOfNumberInList() {
         $lastNumberInListCollection = static::select('number_in_list')->orderByDesc('number_in_list')->limit(1)->get();
-        $lastNumberInList = isset($lastNumberInListCollection[0]['number_in_list']) ? $lastNumberInListCollection[0]['number_in_list'] : -1;
-        return $lastNumberInList;
+        return isset($lastNumberInListCollection[0]['number_in_list']) ? $lastNumberInListCollection[0]['number_in_list'] : -1;
     }
 
-    public function addRelatedNumbers(array $numbers) {
-        foreach ($numbers as $number)
-            PhoneNumber::create([
+    public function addRelatedPhoneNumbers(array $phoneNumbers) {
+        $amountOfPhoneNumbers = PhoneNumber::getLastValueOfNumberInList($this->id, 'executive_authority_id');
 
+        foreach ($phoneNumbers as $phoneNumber) {
+            PhoneNumber::create([
+                'number_in_list' => $amountOfPhoneNumbers,
+                'number' => $phoneNumber['input'],
+                'number_type' => $phoneNumber['selection'],
                 'executive_authority_id' => $this->id,
             ]);
-        return $this;
+            $amountOfPhoneNumbers++;
+        }
+    }
+
+    public function addRelatedEmails(array $emails) {
+        $amountOfEmails = Email::getLastValueOfNumberInList($this->id);
+
+        foreach ($emails as $email) {
+            Email::create([
+                'email' => $email['input'],
+                'number_in_list' => $amountOfEmails,
+                'is_main' => $email['checkbox'] === true ? 'yes' : 'no',
+                'executive_authority_id' => $this->id,
+            ]);
+            $amountOfEmails++;
+        }
+    }
+
+    public function addInitSubExecutiveAuthority() {
+        SubExecutiveAuthority::create([
+            'executive_authority_id' => $this->id,
+            'number_in_list' => 0,
+            'name' => $this->name,
+            'type' => 'main',
+        ]);
     }
 }

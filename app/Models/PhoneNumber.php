@@ -34,9 +34,9 @@ class PhoneNumber extends Model
     /**
      *
      * Returns last value of column "number_in_list" depends on table, witch is incoming parameter
-     * Explanation: first executive authority has 5 phone numbers, second e.a. has 3, so depends on ID of
+     * Explanation (example): first executive authority has 5 phone numbers, second e.a. has 3, so depends on ID of
      * particular executive authority, we have different last values for number_in_list column of phone_numbers table.
-     * Also, we need to consider possibility of connection phone_numbers with tables like workers, sub_executive_authorities
+     * Also, we need to consider possibility of connection phone_numbers with tables like workers, sub_executive_authorities, etc
      *
      * @param int $id
      * @param string $relationColumnName
@@ -48,6 +48,6 @@ class PhoneNumber extends Model
             ->where($relationColumnName, $id)
             ->limit(1)
             ->get();
-        return isset($lastNumberInListCollection[0]['number_in_list']) ? $lastNumberInListCollection[0]['number_in_list'] : -1;
+        return isset($lastNumberInListCollection[0]['number_in_list']) ? $lastNumberInListCollection[0]['number_in_list'] : 0;
     }
 }

@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class phoneNumber implements Rule
+class ExecutiveAuthorityLocationCoordinates implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,7 +25,12 @@ class phoneNumber implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
+        $matches = [];
+        preg_match('/.*\..*,.*\..*/', $value, $matches);
+
+        if (count($matches) != 0 || mb_strlen($value) == 0) {
+            return true;
+        } return false;
     }
 
     /**
@@ -35,6 +40,6 @@ class phoneNumber implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Координати локації повинні відповідати наступному формату: "число.дробова частина, число.дробова частина';
     }
 }

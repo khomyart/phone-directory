@@ -14,8 +14,8 @@ class AddColumnsToSubExecutiveAuthoritiesTable extends Migration
     public function up()
     {
         Schema::table('sub_executive_authorities', function (Blueprint $table) {
-            $table->string('location_description', 500);
-            $table->string('location_coordinates', 15);
+            $table->string('location_description', 500)->nullable();
+            $table->string('location_coordinates', 15)->nullable();
 
             $table->foreign('executive_authority_id')
                 ->references('id')

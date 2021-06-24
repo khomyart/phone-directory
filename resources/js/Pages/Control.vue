@@ -12,7 +12,8 @@
                 </ul>
             </div>
             <div class="col-4 d-flex justify-content-center align-items-start p-4 forms-holder">
-                <component :is="currentComponent" @submit-form="submit"></component>
+                <component :is="currentComponent" @submit-form="submit"
+                          v-model:isFormSuccessfullySubmitted = "isFormSuccessfullySubmitted"></component>
             </div>
         </div>
         <div class="col-12 d-flex justify-content-center align-items-center" style="height: 10%">
@@ -39,7 +40,14 @@
 
         data() {
             return {
-                currentComponent: 'ExecutiveAuthorityForm'
+                currentComponent: 'ExecutiveAuthorityForm',
+                isFormSuccessfullySubmitted: false,
+            }
+        },
+
+        watch: {
+            isFormSuccessfullySubmitted(val, oldVal) {
+                console.log(`showingChange of ${oldVal} to ${val}`)
             }
         },
 
@@ -47,13 +55,20 @@
             submit(form, listOfFields) {
                 form.post(this.route('control'), {
                     onSuccess: () => {
-                        //resets form's fields depends on it names
-                        listOfFields.forEach((el)=>{
-                            form.reset(el);
-                        })
+                        listOfFields.forEach((el)=>{ form.reset(el) })
+                        this.isFormSuccessfullySubmitted = true;
+                    },
+                    onError: (errors) => {
+                        this.showErrors(errors)
                     }
                 })
             },
+            showErrors(errors) {
+                Object.keys(errors).forEach((el)=>{
+                    document.getElementById(el).classList.add('is-invalid');
+                    document.getElementById(`${el}Feedback`).innerText = errors[el];
+                })
+            }
         }
     }
 </script>

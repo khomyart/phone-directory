@@ -15,7 +15,7 @@ class CreatePhoneNumbersTable extends Migration
     {
         Schema::create('phone_numbers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('worker_id');
+            $table->unsignedBigInteger('worker_id')->nullable();
             $table->integer('number_in_list');
             $table->string('number', 60);
             $table->enum('number_type', ['stationary', 'mobile', 'fax']);
